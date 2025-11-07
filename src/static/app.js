@@ -27,13 +27,47 @@ document.addEventListener("DOMContentLoaded", () => {
         if (participants.length === 0) {
           participantsHTML += '<p class="no-participants">No participants yet</p>';
         } else {
-          participantsHTML += '<ul class="participants-list">';
+          participantsHTML += '<div class="participants-list">';
           participants.forEach((p) => {
-            participantsHTML += `<li>${p}</li>`;
+            participantsHTML += `
+              <span class="participant-item" data-activity="${encodeURIComponent(name)}" data-email="${encodeURIComponent(p)}">
+                <span class="participant-email">${p}</span>
+                <button class="delete-participant" title="Remove participant" aria-label="Remove participant">&times;</button>
+              </span>
+            `;
           });
-          participantsHTML += '</ul>';
+          participantsHTML += '</div>';
         }
         participantsHTML += '</div>';
+  // Delegate click for delete icons
+  activitiesList.addEventListener("click", async (event) => {
+    if (event.target.classList.contains("delete-participant")) {
+      const participantItem = event.target.closest(".participant-item");
+      if (!participantItem) return;
+      const activity = decodeURIComponent(participantItem.getAttribute("data-activity"));
+      const email = decodeURIComponent(participantItem.getAttribute("data-email"));
+      if (!activity || !email) return;
+
+      // Optionally confirm
+      if (!confirm(`Remove ${email} from ${activity}?`)) return;
+
+      try {
+        const response = await fetch(`/activities/${encodeURIComponent(activity)}/signup?email=${encodeURIComponent(email)}`, {
+          method: "DELETE",
+        });
+        const result = await response.json();
+        if (response.ok) {
+          // Refresh activities list
+          fetchActivities();
+        } else {
+          alert(result.detail || "Failed to remove participant.");
+        }
+      } catch (error) {
+        alert("Error removing participant. Please try again.");
+        console.error("Error removing participant:", error);
+      }
+    }
+  });
 
         activityCard.innerHTML = `
           <h4>${name}</h4>
@@ -74,10 +108,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const result = await response.json();
 
+
       if (response.ok) {
         messageDiv.textContent = result.message;
         messageDiv.className = "message success";
         signupForm.reset();
+        // Refresh activities list to show new participant
+        fetchActivities();
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "message error";

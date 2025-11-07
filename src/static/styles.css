@@ -156,17 +156,50 @@ footer {
   color: #444;
 }
 
+
 .participants-list {
-  list-style: disc inside;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   margin: 0;
-  padding-left: 12px;
+  padding: 0;
 }
 
-.participants-list li {
-  padding: 6px 0;
+.participant-item {
+  display: flex;
+  align-items: center;
+  background: #f3f6fa;
+  border-radius: 3px;
+  padding: 4px 8px 4px 8px;
+  margin: 0;
   font-size: 15px;
   color: #333;
-  border-bottom: 1px solid rgba(0,0,0,0.03);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.participant-email {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.delete-participant {
+  background: none;
+  border: none;
+  color: #c62828;
+  font-size: 20px;
+  margin-left: 8px;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 50%;
+  transition: background 0.2s;
+  line-height: 1;
+}
+.delete-participant:hover, .delete-participant:focus {
+  background: #ffeaea;
+  color: #a31515;
+  outline: none;
 }
 
 .no-participants {
