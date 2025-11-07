@@ -142,3 +142,42 @@ footer {
   padding: 20px;
   color: #666;
 }
+
+/* Participants section styling */
+.participants-section {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed #eee;
+}
+
+.participants-section strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.participants-list {
+  list-style: disc inside;
+  margin: 0;
+  padding-left: 12px;
+}
+
+.participants-list li {
+  padding: 6px 0;
+  font-size: 15px;
+  color: #333;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+.no-participants {
+  font-style: italic;
+  color: #666;
+  margin: 6px 0 0 0;
+}
+
+/* Keep message base class so success/error styles coexist with .message */
+.message {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 4px;
+}
